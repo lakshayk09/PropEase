@@ -1,0 +1,49 @@
+<div
+  *ngFor="let property of filteredProperties()"
+  class="bg-white rounded shadow flex flex-col md:flex-row overflow-hidden mb-5"
+>
+  <img
+    [src]="property.imageUrl || 'https://via.placeholder.com/300x200?text=No+Image'"
+    alt="{{ property.name }}"
+    class="w-full md:w-48 object-cover"
+  />
+
+  <div class="p-6 flex flex-col justify-between flex-grow">
+    <div>
+      <h3 class="text-xl font-semibold text-slate-900">{{ property.name }}</h3>
+      <p class="text-sm text-slate-600">{{ property.address }}, {{ property.city }}, {{ property.state }}</p>
+      <p class="mt-1 text-slate-700">
+        <span class="font-semibold">Status:</span> {{ property.status | titlecase }}
+        <span class="ml-4 font-semibold">Type:</span> {{ property.type | titlecase }}
+      </p>
+      <p class="mt-1 text-slate-700">
+        <span class="font-semibold">Rooms:</span> {{ property.rooms }}
+        <span class="ml-4 font-semibold">Price:</span>
+        <span *ngIf="property.status === 'for_rent'">₹{{ property.price }}/month</span>
+        <span *ngIf="property.status === 'for_sale'">₹{{ property.price | number }}</span>
+      </p>
+      <p class="mt-1 text-slate-700">
+        <span class="font-semibold">Contact:</span> {{ property.contactNumber }}
+      </p>
+
+      <div class="mt-3">
+        <span class="font-semibold">Features:</span>
+        <span
+          *ngFor="let f of getFeatureNames(property.featureIds)"
+          class="inline-block bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded mr-1 mt-1"
+        >
+          {{ f }}
+        </span>
+      </div>
+    </div>
+
+    <div class="mt-6 flex justify-end space-x-4">
+      <button (click)="onEdit(property.id)" class="px-4 py-2 bg-yellow-400 hover:bg-yellow-500 text-white rounded">
+        Edit
+      </button>
+      <button (click)="onDelete(property.id)" class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded">
+        Delete
+      </button>
+    </div>
+  </div>
+</div>
